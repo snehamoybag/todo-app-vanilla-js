@@ -4,7 +4,7 @@ const LogoEl = () => {
 
   // TODO: add a logo eleement
 
-  const logoTextEl = document.createElement("h2");
+  const logoTextEl = document.createElement("h1");
   logoTextEl.classList.add(`${logoClassName}__text`);
   logoTextEl.textContent = "Todo";
 
