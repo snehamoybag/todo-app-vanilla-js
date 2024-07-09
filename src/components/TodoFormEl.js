@@ -1,5 +1,6 @@
-import TodoItemEl from "./TodoItemEl";
 import ScreenReaderOnlyEl from "./ScreenReaderOnlyEl";
+import { renderTodosEvent } from "./TodosContainerEl";
+import TodoData, { getTodosData, setTodosData } from "../TodoData";
 
 const TodoTextInputEl = (id) => {
   const inputWrapperEl = document.createElement("p");
@@ -65,27 +66,33 @@ const TodoFormEl = (todosContainerElId) => {
 
   todoFormEl.append(todoTextInputEl, todoDateInputEl, submitButtonEl);
 
-  const handleFormSubmit = (event) => {
+  todoFormEl.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const textValue = todoTextInputEl.querySelector(
-      `#${todoTextInputElId}`,
-    ).value;
-    const dateValue = todoDateInputEl.querySelector(
-      `#${todoDateInputElId}`,
-    ).value;
+    const domTextInputEl = document.querySelector(`#${todoTextInputElId}`);
+    const domDateInputEl = document.querySelector(`#${todoDateInputElId}`);
 
-    const todosContainerEl = document.querySelector(`#${todosContainerElId}`);
-    const todoItemEl = TodoItemEl(textValue, dateValue);
+    const prevTodosData = getTodosData();
+    const todoData = new TodoData(
+      Date.now(),
+      domTextInputEl.value,
+      domDateInputEl.value,
+    );
 
-    todosContainerEl.append(todoItemEl);
+    // update todos data
+    const newTodosData = [todoData, ...prevTodosData];
+    setTodosData(newTodosData);
 
-    // clear form fields
-    todoFormEl.querySelectorAll("textarea").forEach((el) => (el.value = ""));
-    todoFormEl.querySelectorAll("input").forEach((el) => (el.value = ""));
-  };
+    // dispatch the custom render event
+    const domTodosContainerEl = document.querySelector(
+      `#${todosContainerElId}`,
+    );
+    domTodosContainerEl.dispatchEvent(renderTodosEvent);
 
-  todoFormEl.addEventListener("submit", handleFormSubmit);
+    // clear the fields
+    domTextInputEl.value = "";
+    domDateInputEl.value = "";
+  });
 
   return todoFormEl;
 };
