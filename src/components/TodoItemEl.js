@@ -1,6 +1,8 @@
 import ScreenReaderOnlyEl from "./ScreenReaderOnlyEl";
 import { getTodosData, setTodosData } from "../TodoData";
 import { renderTodosEvent } from "./TodosContainerEl";
+import "../styles/sr-only.css";
+import "../styles/todo-item.css";
 
 const TodoItemEl = (id, todoText = "") => {
   if (!todoText) {
@@ -19,6 +21,7 @@ const TodoItemEl = (id, todoText = "") => {
   const deleteBtnEl = document.createElement("button");
   deleteBtnEl.classList.add("btn", "btn--delete");
   deleteBtnEl.type = "button";
+  deleteBtnEl.title = "mark as complete";
 
   deleteBtnEl.addEventListener("click", () => {
     const prevTodosData = getTodosData();
@@ -37,7 +40,7 @@ const TodoItemEl = (id, todoText = "") => {
   srOnlyDeleteBtnTextEl.textContent = "Delete Task";
 
   deleteBtnEl.append(srOnlyDeleteBtnTextEl);
-  todoItemEl.append(textEl, deleteBtnEl);
+  todoItemEl.append(deleteBtnEl, textEl);
 
   return todoItemEl;
 };

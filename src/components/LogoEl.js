@@ -1,3 +1,5 @@
+import "../styles/logo.css";
+
 const LogoEl = () => {
   const logoEl = document.createElement("div");
   const logoClassName = "logo";

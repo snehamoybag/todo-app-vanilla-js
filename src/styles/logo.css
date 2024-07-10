@@ -1,0 +1,7 @@
+.logo__text {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--clr-primary-100);
+  -webkit-text-stroke: 1px var(--clr-neutral-700);
+}

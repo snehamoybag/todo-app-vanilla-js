@@ -13,7 +13,7 @@ const TodoTextInputEl = (id) => {
   textInputEl.name = id;
   textInputEl.placeholder = "Do grocery shopping...";
   textInputEl.required = true;
-  textInputEl.maxLength = 55;
+  textInputEl.maxLength = 120;
 
   const textInputLabelEl = document.createElement("label");
   textInputLabelEl.for = id;
@@ -42,7 +42,7 @@ const TodoFormEl = (todosContainerElId) => {
   submitButtonEl.classList.add("btn", "btn--submit");
   submitButtonEl.type = "submit";
   submitButtonEl.id = "btn-todo-submit";
-  submitButtonEl.textContent = "Submit";
+  submitButtonEl.textContent = "go";
 
   todoFormEl.append(todoTextInputEl, submitButtonEl);
 

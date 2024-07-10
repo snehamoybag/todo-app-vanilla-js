@@ -1,5 +1,6 @@
 import { getTodosData } from "../TodoData";
 import TodoItemEl from "./TodoItemEl";
+import "../styles/todos-container.css";
 
 const renderTodosEventName = "renderTodos";
 

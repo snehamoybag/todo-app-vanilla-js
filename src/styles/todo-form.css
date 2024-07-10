@@ -1,0 +1,51 @@
+.todo-form {
+  --input-height: 2.75em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25em;
+}
+
+.todo-form input {
+  background-color: var(--clr-primary-100);
+  color: var(--clr-neutral-700);
+  padding: 0 1em;
+  height: var(--input-height);
+  border: 1px solid var(--clr-neutral-700);
+  border-radius: 0.25rem;
+  opacity: 0.9;
+}
+
+.todo-form input:focus {
+  opacity: 1;
+  outline-color: var(--clr-neutral-700);
+  box-shadow: 5px 5px 10px hsla(0, 0%, 0%, 0.1);
+}
+
+.todo-form .btn--submit {
+  width: 3em;
+  height: var(--input-height);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  background-color: var(--clr-primary-400);
+  color: var(--clr-primary-100);
+  border: 1px solid var(--clr-neutral-700);
+  border-radius: 0.25rem;
+  box-shadow: 5px 0px 10px hsla(0, 0%, 0%, 0.1);
+  transition: transform 100ms ease;
+}
+
+.todo-form .btn--submit:hover,
+.todo-form .btn--submit:focus {
+  cursor: pointer;
+  transform: scale(105%);
+}
+
+.todo-form .btn--submit:focus-visible {
+  outline-color: var(--clr-neutral-700);
+}
+
+.todo-form .btn--submit:active {
+  transform: scale(95%);
+  box-shadow: none;
+}

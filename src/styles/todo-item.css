@@ -1,0 +1,34 @@
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  background-color: var(--clr-primary-100);
+  padding: 1em;
+}
+
+.todo-item .btn--delete {
+  --size: 1em;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+  border: 1px solid var(--clr-neutral-700);
+  border-radius: 50%;
+  position: relative;
+  isolation: isolate;
+}
+
+.todo-item .btn--delete:hover {
+  cursor: pointer;
+}
+
+.todo-item .btn--delete:active::after {
+  content: "";
+  width: 70%;
+  height: 70%;
+  background-color: var(--clr-primary-400);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

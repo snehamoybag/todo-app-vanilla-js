@@ -1,7 +1,7 @@
 import LogoEl from "./src/components/LogoEl";
 import TodoFormEl from "./src/components/TodoFormEl";
 import TodosContainerEl from "./src/components/TodosContainerEl";
-import "./style.css";
+import "./main.css";
 
 const headerEl = document.createElement("header");
 headerEl.append(LogoEl());
