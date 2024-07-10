@@ -1,8 +1,7 @@
 class TodoData {
-  constructor(id, todoText = "", todoDueDate = "") {
+  constructor(id, todoText = "") {
     this.id = id;
     this.todoText = todoText;
-    this.todoDueDate = todoDueDate;
   }
 }
 
