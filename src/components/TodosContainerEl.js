@@ -1,6 +1,7 @@
 import { getTodosData } from "../TodoData";
 import TodoItemEl from "./TodoItemEl";
 import "../styles/todos-container.css";
+import PlaceholderTodoItemEl from "./PlaceholderTodoItemEl";
 
 const renderTodosEventName = "renderTodos";
 
@@ -24,7 +25,14 @@ const TodosContainerEl = (id) => {
 
   const renderTodoItemEls = () => {
     todosContainerEl.innerHTML = ""; // clear the previous renders
-    todosContainerEl.append(...getTodoItemEls());
+
+    const todoItemEls = getTodoItemEls();
+
+    if (todoItemEls.length < 1) {
+      todosContainerEl.append(PlaceholderTodoItemEl());
+    } else {
+      todosContainerEl.append(...getTodoItemEls());
+    }
   };
 
   // render todos on call/render
