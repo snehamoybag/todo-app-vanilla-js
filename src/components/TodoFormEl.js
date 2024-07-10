@@ -7,11 +7,13 @@ import "../styles/todo-form.css";
 const TodoTextInputEl = (id) => {
   const inputWrapperEl = document.createElement("p");
 
-  const textInputEl = document.createElement("textarea");
+  const textInputEl = document.createElement("input");
+  textInputEl.type = "text";
   textInputEl.id = id;
   textInputEl.name = id;
   textInputEl.placeholder = "Do grocery shopping...";
   textInputEl.required = true;
+  textInputEl.maxLength = 55;
 
   const textInputLabelEl = document.createElement("label");
   textInputLabelEl.for = id;
