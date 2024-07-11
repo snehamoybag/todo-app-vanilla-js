@@ -1,9 +1,17 @@
 .todo-item {
+  cursor: move;
   display: flex;
   align-items: center;
   gap: var(--spacing-200);
   background-color: var(--clr-primary-100);
   padding: 1em;
+  overflow: hidden;
+}
+
+/* drag and drop stylings */
+.todo-item.dragging {
+  opacity: 0.2;
+  filter: brightness(90%);
 }
 
 .todo-item .btn--delete {

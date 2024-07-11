@@ -4,6 +4,25 @@ import { renderTodosEvent } from "./TodosContainerEl";
 import "../styles/sr-only.css";
 import "../styles/todo-item.css";
 
+const handleDrag = (() => {
+  const draggingClassName = "dragging";
+
+  // event handlers
+  const start = (event) => {
+    const draggingEl = event.target;
+    draggingEl.classList.add(draggingClassName);
+    draggingEl.dataset.isDragging = true;
+  };
+
+  const end = (event) => {
+    const draggedEl = event.target;
+    draggedEl.classList.remove(draggingClassName);
+    draggedEl.dataset.isDragging = false;
+  };
+
+  return { start, end };
+})();
+
 const TodoItemEl = (id, todoText = "") => {
   if (!todoText) {
     throw new Error("Task cannot be empty.");
@@ -13,6 +32,11 @@ const TodoItemEl = (id, todoText = "") => {
   const todoItemElClassName = "todo-item";
   todoItemEl.classList.add(todoItemElClassName);
   todoItemEl.id = id;
+  todoItemEl.draggable = true;
+  todoItemEl.dataset.isDragging = false;
+
+  todoItemEl.addEventListener("dragstart", handleDrag.start);
+  todoItemEl.addEventListener("dragend", handleDrag.end);
 
   const textEl = document.createElement("p");
   textEl.classList.add(`${todoItemElClassName}__text`);
@@ -32,8 +56,7 @@ const TodoItemEl = (id, todoText = "") => {
     setTodosData(newTodosData);
 
     // dispatch todos re-render event
-    const todosContainerEl = todoItemEl.parentNode;
-    todosContainerEl.dispatchEvent(renderTodosEvent);
+    todoItemEl.parentNode.dispatchEvent(renderTodosEvent);
   });
 
   const srOnlyDeleteBtnTextEl = ScreenReaderOnlyEl();

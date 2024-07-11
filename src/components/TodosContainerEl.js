@@ -3,6 +3,62 @@ import TodoItemEl from "./TodoItemEl";
 import "../styles/todos-container.css";
 import PlaceholderTodoItemEl from "./PlaceholderTodoItemEl";
 
+// returns an todo element that is after the cursor
+const getDragAfterEl = (containerEl, yPosCursor) => {
+  const draggableEls = Array.from(
+    containerEl.querySelectorAll(
+      "[data-is-dragging='false']", // elems that are not dragging
+    ),
+  );
+
+  const closesetAfter = draggableEls.reduce(
+    (closest, el) => {
+      const elBox = el.getBoundingClientRect();
+      const yPosElCenter = elBox.top + elBox.height / 2;
+      const currentOffset = yPosElCenter - yPosCursor; // distance from the cursor to the current draggable element
+
+      /***** NOTE *****/
+
+      // if currentOffset is >= 0 then we know, the cursor is at the top of the current draggable element
+      // if currentOffset is < 0 then we know, the cursor is at the bottom of the current draggable element
+
+      // so when cursor is at the top of the current draggable element, we have to get the currentOffset
+      // if the current offset is smaller than the closest found offset,
+      // the current draggable element has to be the afterElement we are looking for
+
+      // after element is needed as reference so we can use the insertBefore() method
+      // to place the dragging element before it
+
+      /***** END OF NOTE *****/
+
+      if (currentOffset >= 0 && currentOffset < closest.offset) {
+        return { offset: currentOffset, element: el };
+      } else {
+        return closest;
+      }
+    },
+    {
+      offset: Number.POSITIVE_INFINITY, // distance from cursor to the closest draggable element
+      element: null,
+    },
+  );
+
+  return closesetAfter.element;
+};
+
+const handleDragOver = (event, containerEl) => {
+  event.preventDefault(); // enable dropping cursor
+
+  const draggingEl = containerEl.querySelector("[data-is-dragging='true']"); // get by dataset
+  const dragAfterEl = getDragAfterEl(containerEl, event.clientY);
+
+  if (dragAfterEl !== null) {
+    containerEl.insertBefore(draggingEl, dragAfterEl);
+  } else {
+    containerEl.append(draggingEl);
+  }
+};
+
 const renderTodosEventName = "renderTodos";
 
 export const renderTodosEvent = new Event(renderTodosEventName);
@@ -17,7 +73,8 @@ const TodosContainerEl = (id) => {
 
     const todoItemEls = todosData.map((todoData) => {
       const todoDataValeus = Object.values(todoData);
-      return TodoItemEl(...todoDataValeus);
+      const todoItemEl = TodoItemEl(...todoDataValeus);
+      return todoItemEl;
     });
 
     return todoItemEls;
@@ -35,11 +92,16 @@ const TodosContainerEl = (id) => {
     }
   };
 
+  // handle drag and drop of todo elements
+  todosContainerEl.addEventListener("dragover", (event) =>
+    handleDragOver(event, todosContainerEl),
+  );
+
+  // re-render todos on custom event dispatch
+  todosContainerEl.addEventListener(renderTodosEventName, renderTodoItemEls);
+
   // render todos on call/render
   renderTodoItemEls();
-
-  // render todos on custom event dispatch
-  todosContainerEl.addEventListener(renderTodosEventName, renderTodoItemEls);
 
   return todosContainerEl;
 };
