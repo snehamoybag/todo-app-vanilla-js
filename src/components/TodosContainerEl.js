@@ -1,7 +1,7 @@
-import { getTodosData } from "../TodoData";
+import { getTodosData, setTodosData } from "../TodoData";
 import TodoItemEl from "./TodoItemEl";
-import "../styles/todos-container.css";
 import PlaceholderTodoItemEl from "./PlaceholderTodoItemEl";
+import "../styles/todos-container.css";
 
 // returns an todo element that is after the cursor
 const getDragAfterEl = (containerEl, yPosCursor) => {
@@ -59,6 +59,19 @@ const handleDragOver = (event, containerEl) => {
   }
 };
 
+const handleDrop = (event, containerEl) => {
+  // sync data to match ui
+  const todoEls = Array.from(containerEl.querySelectorAll(".todo-item"));
+  const prevTodosData = getTodosData();
+
+  const reOrderedTodosData = todoEls.map((el) => {
+    // return the data item whose id matches the current element id
+    return prevTodosData.find((data) => String(el.id) === String(data.id));
+  });
+
+  setTodosData(reOrderedTodosData);
+};
+
 const renderTodosEventName = "renderTodos";
 
 export const renderTodosEvent = new Event(renderTodosEventName);
@@ -95,6 +108,10 @@ const TodosContainerEl = (id) => {
   // handle drag and drop of todo elements
   todosContainerEl.addEventListener("dragover", (event) =>
     handleDragOver(event, todosContainerEl),
+  );
+
+  todosContainerEl.addEventListener("drop", (event) =>
+    handleDrop(event, todosContainerEl),
   );
 
   // re-render todos on custom event dispatch
